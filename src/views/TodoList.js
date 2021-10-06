@@ -3,12 +3,19 @@ import TodosForm from "../components/todos/TodosForm";
 import Todos from "../components/todos/Todos";
 
 const TodoList = () => {
-  const initialState = [
-    { id: 1, title: "pick a book from library", done: false },
-    { id: 2, title: "go to GYM at 10:00 AM", done: true },
-    { id: 3, title: "Do my Homework", done: false },
-    { id: 4, title: "Hangout with my friends", done: true },
-  ];
+  // const initialState = [
+  //   { id: 1, title: "pick a book from library", done: false },
+  //   { id: 2, title: "go to GYM at 10:00 AM", done: true },
+  //   { id: 3, title: "Do my Homework", done: false },
+  //   { id: 4, title: "Hangout with my friends", done: true },
+  // ];
+
+  const initialState = localStorage.getItem("todos")
+    ? JSON.parse(localStorage.getItem("todos"))
+    : [];
+  const setToLocal = (todos) => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  };
 
   const [todos, setTodos] = useState(initialState);
   // mode => add || not-done || edit
@@ -24,6 +31,7 @@ const TodoList = () => {
       }
       return el;
     });
+    setToLocal(newTodo);
     setTodos(newTodo);
   };
 
@@ -35,6 +43,7 @@ const TodoList = () => {
         done: false,
       };
       const newTodos = [...todos, newTodo];
+      setToLocal(newTodo);
       setTodos(newTodos);
     } else {
       const curTodos = [...todos];
@@ -45,6 +54,7 @@ const TodoList = () => {
         }
         return el;
       });
+      setToLocal(newTodos);
       setTodos(newTodos);
       setActiveTodo({});
       setMode("");
@@ -54,6 +64,7 @@ const TodoList = () => {
   const deleteTodo = (id) => {
     const curTodo = [...todos];
     const newTodo = curTodo.filter((el) => el.id !== id);
+    setToLocal(newTodo);
     setTodos(newTodo);
   };
 
