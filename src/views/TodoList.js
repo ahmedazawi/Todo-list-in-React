@@ -10,9 +10,12 @@ const TodoList = () => {
   //   { id: 4, title: "Hangout with my friends", done: true },
   // ];
 
+  // get from localStorage
   const initialState = localStorage.getItem("todos")
     ? JSON.parse(localStorage.getItem("todos"))
     : [];
+
+  // set to localStorage
   const setToLocal = (todos) => {
     localStorage.setItem("todos", JSON.stringify(todos));
   };
